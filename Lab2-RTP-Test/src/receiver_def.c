@@ -197,7 +197,7 @@ int recvMessage(char* filename) {
             if (recv_num == -1) {
                 curr_time = clock();
                 if (curr_time-set_time >= RECV_TIMEOUT) {
-                    printf("Timeout: No DATA message arrival.\n");
+                    // printf("Timeout: No DATA message arrival.\n");
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
                     fclose(localfile);
@@ -205,7 +205,7 @@ int recvMessage(char* filename) {
                 }
             }
             else if (recv_num == 0) {
-                printf("Error: Connection closed befoe recvfrom() finishes.\n");
+                // printf("Error: Connection closed befoe recvfrom() finishes.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
@@ -219,12 +219,11 @@ int recvMessage(char* filename) {
             *((unsigned char *)recv_msg+i) = recv_buf[i];
             // printf("%02x\n",recv_buf[i]);
         }
-        if (MY_DEBUG) printf("type = %d, length = %d, seq_num = %d, checksum = %u\n",recv_msg->rtp.type, recv_msg->rtp.length, recv_msg->rtp.seq_num, recv_msg->rtp.checksum);
         recv_cnt = Min(recv_cnt, PACKET_SIZE);
         pld_len = recv_cnt-HEADER_SIZE;
         if (pld_len != recv_msg->rtp.length) {
-            if (MY_PRINT) printf("Warning: Discrepancy between the length of a received payload and its description in the header.\n");
-            if (MY_PRINT) printf("recv_cnt = %d, pld_len = %d\n", recv_cnt, pld_len);
+            // printf("Warning: Discrepancy between the length of a received payload and its description in the header.\n");
+            // printf("recv_cnt = %d, pld_len = %d\n", recv_cnt, pld_len);
             set_time = clock();
             continue;
         }
@@ -234,18 +233,18 @@ int recvMessage(char* filename) {
         }
         // Check the header checksum
 
-        if (MY_DEBUG) printf("in the receiver\n");
-        if (MY_DEBUG) for (int i=0;i<HEADER_SIZE; i++) {
-            printf("%02x ",*((unsigned char*)recv_msg+i));
-        }
-        if (MY_DEBUG) printf("\n");
+        // printf("in the receiver\n");
+        // for (int i=0;i<HEADER_SIZE; i++) {
+        //     printf("%02x ",*((unsigned char*)recv_msg+i));
+        // }
+        // printf("\n");
 
         packet_len = recv_cnt;
         recv_check = Checksum_Reconstruct(recv_msg, packet_len);
         if (recv_check != 0) {
-            if (MY_PRINT) printf("Warning: Message checksum failure. Packet to be discard.\n");
+            // printf("Warning: Message checksum failure. Packet to be discard.\n");
             if (recv_msg->rtp.type == RTP_START) {
-                printf("Error: START message checksum failure. Close the RTP Connectionn.\n");
+                // printf("Error: START message checksum failure. Close the RTP Connectionn.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
@@ -257,33 +256,33 @@ int recvMessage(char* filename) {
         // A valid packet is received.
         // Dispatch according to its category.
         if (recv_msg->rtp.type == RTP_START) {
-            if (MY_PRINT) printf("recvmsg RTP_START.\n");
+            // printf("recvmsg RTP_START.\n");
             if (started) {
-                if (MY_PRINT) printf("Warning: A START message arrived but an RTP Connection is already on operation.\n");
+                // printf("Warning: A START message arrived but an RTP Connection is already on operation.\n");
                 set_time = clock();
                 continue;
             }
             started = 1;
             data_flag = 0;
             expc_seq_num = 0;
-            if (MY_PRINT) printf("An RTP Connection started, with the client IP %s and port %d.\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            // printf("An RTP Connection started, with the client IP %s and port %d.\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
             // START ACK
             if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send a START ACK message.\n");
+                printf("Error: Failed to send a START ACK message.\n");
             } 
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_ACK) {
-            if (MY_PRINT) printf("Receive message RTP_ACK.\n");
-            if (started == 0) 
-                if (MY_PRINT) printf("Warning: An ACK message arrived before an RTP Connection is started.\n");
-            if (MY_PRINT) printf("Warning: An ACK type message arrived, which is undefined behavior.\n");
+            // printf("Receive message RTP_ACK.\n");
+            // if (started == 0) 
+            //     printf("Warning: An ACK message arrived before an RTP Connection is started.\n");
+            // printf("Warning: An ACK type message arrived, which is undefined behavior.\n");
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_DATA){
-            if (MY_DEBUG) printf("Receive message RTP_DATA.\n");
+            // printf("Receive message RTP_DATA.\n");
             if (started == 0) {
-                if (MY_PRINT) printf("Warning: A DATA message arrived before an RTP Connection is started.\n");
+                // printf("Warning: A DATA message arrived before an RTP Connection is started.\n");
                 set_time = clock();
                 continue;
             }
@@ -300,7 +299,7 @@ int recvMessage(char* filename) {
             if (recv_msg->rtp.seq_num < expc_seq_num) {
                 // If the message has already arrived but not yet been acknowledged successfully. Also send an ACK message.
                 if (Send_ACK_Message(expc_seq_num) == -1) {
-                    if (MY_PRINT) printf("Error: Failed to send a DATA ACK message.\n");
+                    printf("Error: Failed to send a DATA ACK message.\n");
                 }
                 set_time = clock();
                 continue;
@@ -317,7 +316,7 @@ int recvMessage(char* filename) {
                 if ((GW.p[GW.head%curr_window_size]->rtp.seq_num != expc_seq_num) || (GW.acked[GW.head%curr_window_size] != 1)) 
                     break; 
                 if ((file_cnt = fwrite(GW.p[GW.head%curr_window_size]->payload, GW.p[GW.head%curr_window_size]->rtp.length, 1, localfile)) != 1) {
-                    printf("Error: Failed to write into file %s.\n", filename);
+                    // printf("Error: Failed to write into file %s.\n", filename);
                     fclose(localfile);
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
@@ -333,19 +332,19 @@ int recvMessage(char* filename) {
             }
             GW.tail = GW.head + curr_window_size;
             if (Send_ACK_Message(expc_seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send a DATA ACK message.\n");
+                printf("Error: Failed to send a DATA ACK message.\n");
             } 
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_END) {
-            if (MY_PRINT) printf("Receive message RTP_END.\n");
+            // printf("Receive message RTP_END.\n");
             if (started == 0) {
-                if (MY_PRINT) printf("Warning: An END message arrived before an RTP Connection is started.\n");
+                // printf("Warning: An END message arrived before an RTP Connection is started.\n");
                 set_time = clock();
                 continue;
             }
             if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send an END ACK message.\n");
+                printf("Error: Failed to send an END ACK message.\n");
             } 
             set_time = clock();
             free(recv_msg); recv_msg = NULL;
@@ -355,7 +354,7 @@ int recvMessage(char* filename) {
             return file_len;
         }
         else {
-            if (MY_PRINT) printf("Warning: A message with unknown type arrived.\n");
+            // printf("Warning: A message with unknown type arrived.\n");
             set_time = clock();
         }
     }
@@ -373,7 +372,6 @@ static uint32_t Checksum_Reconstruct(rtp_packet_t * pkt, size_t pkt_len) {
     pkt->rtp.checksum = 0;
     uint32_t new_checksum = compute_checksum(pkt, pkt_len);
     pkt->rtp.checksum = org_checksum;
-    if (MY_DEBUG) printf("Checksum: old = %u, new = %u.\n",org_checksum, new_checksum);
     return (org_checksum == new_checksum)? 0 : new_checksum;
 }
 
@@ -400,13 +398,13 @@ int Send_ACK_Message(uint32_t seq_num){
     while (send_cnt < packet_len) {
         send_num = sendto(listen_socket_fd, (char *)(send_msg)+send_cnt, packet_len-send_cnt, 0, (struct sockaddr *)&client_addr, addr_len);
         if (send_num == -1) {
-            printf("Error: Failed to send a message.\n");
-            printf("%s\n", strerror(errno));
+            // printf("Error: Failed to send a message.\n");
+            // printf("%s\n", strerror(errno));
             free(send_msg); send_msg = NULL;
             return -1;
         }
         else if (send_num == 0) {
-            printf("Error: Connection closed before sendto() finishes.\n");
+            // printf("Error: Connection closed before sendto() finishes.\n");
             free(send_msg); send_msg = NULL;
             return -1;
         }
@@ -422,7 +420,7 @@ int Send_ACK_Message(uint32_t seq_num){
     When recvMessage() fails, call this function to close RTP connection and UDP socket. 
 */
 void terminateReceiver() {
-    printf("RTP Connection terminated.\n");
+    // printf("RTP Connection terminated.\n");
     if (close(listen_socket_fd) == -1) {
         printf("Error: Failed to close UDP listen socket regularly.\n");
         printf("%s\n", strerror(errno));
@@ -490,7 +488,7 @@ int recvMessageOpt(char* filename) {
             if (recv_num == -1) {
                 curr_time = clock();
                 if (curr_time-set_time >= RECV_TIMEOUT) {
-                    printf("Timeout: No DATA message arrival.\n");
+                    // printf("Timeout: No DATA message arrival.\n");
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
                     fclose(localfile);
@@ -498,7 +496,7 @@ int recvMessageOpt(char* filename) {
                 }
             }
             else if (recv_num == 0) {
-                printf("Error: Connection closed befoe recvfrom() finishes.\n");
+                // printf("Error: Connection closed befoe recvfrom() finishes.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
@@ -514,8 +512,8 @@ int recvMessageOpt(char* filename) {
         recv_cnt = Min(recv_cnt, PACKET_SIZE);
         pld_len = recv_cnt-HEADER_SIZE;
         if (pld_len != recv_msg->rtp.length) {
-            if (MY_PRINT) printf("Warning: Discrepancy between the length of a received payload and its description in the header.\n");
-            if (MY_PRINT) printf("recv_cnt = %d, pld_len = %d\n", recv_cnt, pld_len);
+            // printf("Warning: Discrepancy between the length of a received payload and its description in the header.\n");
+            // printf("recv_cnt = %d, pld_len = %d\n", recv_cnt, pld_len);
             set_time = clock();
             continue;
         }
@@ -528,9 +526,9 @@ int recvMessageOpt(char* filename) {
         packet_len = recv_cnt;
         recv_check = Checksum_Reconstruct(recv_msg, packet_len);
         if (recv_check != 0) {
-            if (MY_PRINT) printf("Warning: Message checksum failure. Packet to be discard.\n");
+            // printf("Warning: Message checksum failure. Packet to be discard.\n");
             if (recv_msg->rtp.type == RTP_START) {
-                printf("Error: START message checksum failure. Close the RTP Connectionn.\n");
+                // printf("Error: START message checksum failure. Close the RTP Connectionn.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
@@ -542,32 +540,32 @@ int recvMessageOpt(char* filename) {
         // A valid packet is received.
         // Dispatch according to its category.
         if (recv_msg->rtp.type == RTP_START) {
-            if (MY_PRINT) printf("recvmsg RTP_START.\n");
+            // printf("recvmsg RTP_START.\n");
             if (started) {
-                if (MY_PRINT) printf("Warning: A START message arrived but an RTP Connection is already on operation.\n");
+                // printf("Warning: A START message arrived but an RTP Connection is already on operation.\n");
                 set_time = clock();
                 continue;
             }
             started = 1;
             data_flag = 0;
             expc_seq_num = 0;
-            if (MY_PRINT) printf("An RTP Connection started, with the client IP %s and port %d.\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+            // printf("An RTP Connection started, with the client IP %s and port %d.\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
             // START ACK
             if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send a START ACK message.\n");
+                printf("Error: Failed to send a START ACK message.\n");
             } 
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_ACK) {
-            if (MY_PRINT) printf("Receive message RTP_ACK.\n");
-            if (started == 0) 
-                if (MY_PRINT) printf("Warning: An ACK message arrived before an RTP Connection is started.\n");
-            if (MY_PRINT) printf("Warning: An ACK type message arrived, which is undefined behavior.\n");
+            // printf("Receive message RTP_ACK.\n");
+            // if (started == 0) 
+                // printf("Warning: An ACK message arrived before an RTP Connection is started.\n");
+            // printf("Warning: An ACK type message arrived, which is undefined behavior.\n");
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_DATA) {
             if (started == 0) {
-                if (MY_PRINT) printf("Warning: A DATA message arrived before an RTP Connection is started.\n");
+                // printf("Warning: A DATA message arrived before an RTP Connection is started.\n");
                 set_time = clock();
                 continue;
             }
@@ -582,7 +580,7 @@ int recvMessageOpt(char* filename) {
             }
             if (recv_msg->rtp.seq_num < expc_seq_num) {
                 if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                    if (MY_PRINT) printf("Error: Failed to send a DATA ACK message.\n");
+                    printf("Error: Failed to send a DATA ACK message.\n");
                 }
                 set_time = clock();
                 continue;
@@ -598,7 +596,7 @@ int recvMessageOpt(char* filename) {
                 if ((GW.p[GW.head%curr_window_size]->rtp.seq_num != expc_seq_num) || (GW.acked[GW.head%curr_window_size] != 1)) 
                     break;
                 if ((file_cnt = fwrite(GW.p[GW.head%curr_window_size]->payload, GW.p[GW.head%curr_window_size]->rtp.length, 1, localfile)) != 1) {
-                    printf("Error: Failed to write into file %s.\n", filename);
+                    // printf("Error: Failed to write into file %s.\n", filename);
                     fclose(localfile);
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
@@ -614,19 +612,19 @@ int recvMessageOpt(char* filename) {
             }
             GW.tail = GW.head + curr_window_size;
             if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send a DATA ACK message.\n");
+                printf("Error: Failed to send a DATA ACK message.\n");
             }
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_END) {
-            if (MY_PRINT) printf("Receive message RTP_END.\n");
+            // printf("Receive message RTP_END.\n");
             if (started == 0) {
-                if (MY_PRINT) printf("Warning: An END message arrived before an RTP Connection is started.\n");
+                // printf("Warning: An END message arrived before an RTP Connection is started.\n");
                 set_time = clock();
                 continue;
             }
             if (Send_ACK_Message(recv_msg->rtp.seq_num) == -1) {
-                if (MY_PRINT) printf("Error: Failed to send an END ACK message.\n");
+                printf("Error: Failed to send an END ACK message.\n");
             } 
             set_time = clock();
             free(recv_msg); recv_msg = NULL;
@@ -636,7 +634,7 @@ int recvMessageOpt(char* filename) {
             return file_len;
         }
         else {
-            if (MY_PRINT) printf("Warning: A message with unknown type arrived.\n");
+            // printf("Warning: A message with unknown type arrived.\n");
             set_time = clock();
         }
     }
