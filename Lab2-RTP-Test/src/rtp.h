@@ -18,8 +18,6 @@ extern "C" {
 
 #define PAYLOAD_SIZE 1461
 
-#define MY_DEBUG    0
-#define MY_PRINT    0
 
 typedef struct __attribute__ ((__packed__)) RTP_header {
     uint8_t type;       // 0: START; 1: END; 2: DATA; 3: ACK
