@@ -391,7 +391,7 @@ Recv_ACK_Message:
                     Free_Gliding_Window();
                     return -1;
                 }
-                set_time = clock();
+                // set_time = clock();
             }
             continue;
         }
@@ -435,28 +435,7 @@ Recv_ACK_Message:
             //     printf("Warning: DATA ACK message excessive length.\n");
             // }
         }
-        // Not a valid ACK message, thus check for timeout.
-        // if (!recv_flag) {
-        //     curr_time = clock();
-        //     if (curr_time-set_time >= RECV_TIMEOUT) {
-        //         printf("Timeout: No message arrival.\n");
-        //         free(recv_msg); recv_msg = NULL;
-        //         free(recv_buf); recv_buf = NULL;
-        //         fclose(localfile);
-        //         Free_Gliding_Window();
-        //         return -1;
-        //     }
-        //     if (curr_time-set_time >= TIMEOUT) {
-        //         if (Resend_Window() == -1) {    // Connection closed.
-        //             free(recv_msg); recv_msg = NULL;
-        //             free(recv_buf); recv_buf = NULL;
-        //             fclose(localfile);
-        //             Free_Gliding_Window();
-        //             return -1;
-        //         }
-        //     }
-        // }
-        
+    
         // Complete the file send, when all data have been sent and acknowledged.
         if ((file_cnt == file_len) && (GW.head > GW.tail)) {
             break;
@@ -496,6 +475,8 @@ int Resend_Window(void) {
     rtp_packet_t * send_msg;
     for (int i=GW.head; i<=GW.tail; i++) {
         if (GW.p[i%curr_window_size] == NULL)
+            continue;
+        if (GW.acked[i%curr_window_size] == 1) 
             continue;
         send_msg = GW.p[i%curr_window_size];
         packet_len = HEADER_SIZE+send_msg->rtp.length;
@@ -774,7 +755,7 @@ int sendMessageOpt(const char* message) {
                     Free_Gliding_Window();
                     return -1;
                 }
-                set_time = clock();
+                // set_time = clock();
             }
             continue;
         }
@@ -806,8 +787,8 @@ int sendMessageOpt(const char* message) {
                             break;
                         free(GW.p[GW.head%curr_window_size]); GW.p[GW.head%curr_window_size] = NULL;
                         GW.head++; 
-                        set_time = clock();
                     }
+                    set_time = clock();
                 }
             }
             // if (recv_check != 0) {
@@ -817,27 +798,6 @@ int sendMessageOpt(const char* message) {
             //     printf("Warning: DATA ACK message excessive length.\n");
             // }
         }
-        // if (!recv_flag) {
-        //     // Not a valid ACK message
-        //     curr_time = clock();
-        //     if (curr_time-set_time >= RECV_TIMEOUT) {
-        //         printf("Timeout: No message arrival.\n");
-        //         free(recv_msg); recv_msg = NULL;
-        //         free(recv_buf); recv_buf = NULL;
-        //         fclose(localfile);
-        //         Free_Gliding_Window();
-        //         return -1;
-        //     }
-        //     if (curr_time-set_time >= TIMEOUT) {
-        //         if (Selective_Resend() == -1) {    // Connection closed.
-        //             free(recv_msg); recv_msg = NULL;
-        //             free(recv_buf); recv_buf = NULL;
-        //             fclose(localfile);
-        //             Free_Gliding_Window();
-        //             return -1;
-        //         }
-        //     }
-        // }
 
         if ((file_cnt == file_len) && (GW.head > GW.tail)) 
             break;
