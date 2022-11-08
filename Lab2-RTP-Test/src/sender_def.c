@@ -513,6 +513,7 @@ int Resend_Window(void) {
             }
             else send_cnt += send_num;
         }
+        break;
     }
     return 0;
 }
