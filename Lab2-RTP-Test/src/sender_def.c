@@ -391,7 +391,7 @@ Recv_ACK_Message:
                     Free_Gliding_Window();
                     return -1;
                 }
-                // set_time = clock();
+                set_time = clock();
             }
             continue;
         }
@@ -494,7 +494,7 @@ int Resend_Window(void) {
             }
             else send_cnt += send_num;
         }
-        break;
+        // break;
     }
     return 0;
 }
@@ -755,7 +755,7 @@ int sendMessageOpt(const char* message) {
                     Free_Gliding_Window();
                     return -1;
                 }
-                // set_time = clock();
+                set_time = clock();
             }
             continue;
         }
@@ -842,7 +842,7 @@ static int Selective_Resend(void) {
             }
             else send_cnt += send_num;
         }
-        break;
+        // break;
     }
     return 0;
 }
