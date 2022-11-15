@@ -1,10 +1,10 @@
-Start testing: Nov 07 03:33 PST
+Start testing: Nov 07 22:50 PST
 ----------------------------------------------------------
 1/26 Testing: RTP.NO_FAILURE
 1/26 Test: RTP.NO_FAILURE
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.NO_FAILURE" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.NO_FAILURE" start time: Nov 07 03:33 PST
+"RTP.NO_FAILURE" start time: Nov 07 22:50 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.NO_FAILURE
@@ -12,31 +12,29 @@ Note: Google Test filter = RTP.NO_FAILURE
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.NO_FAILURE
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.NO_FAILURE (5342 ms)
-[----------] 1 test from RTP (5342 ms total)
+[       OK ] RTP.NO_FAILURE (4883 ms)
+[----------] 1 test from RTP (4883 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (5343 ms total)
+[==========] 1 test from 1 test suite ran. (4884 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   5.36 sec
+Test time =   4.89 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.NO_FAILURE" end time: Nov 07 03:33 PST
-"RTP.NO_FAILURE" time elapsed: 00:00:05
+"RTP.NO_FAILURE" end time: Nov 07 22:50 PST
+"RTP.NO_FAILURE" time elapsed: 00:00:04
 ----------------------------------------------------------
 
 2/26 Testing: RTP.NO_FAILURE_OPT
 2/26 Test: RTP.NO_FAILURE_OPT
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.NO_FAILURE_OPT" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.NO_FAILURE_OPT" start time: Nov 07 03:33 PST
+"RTP.NO_FAILURE_OPT" start time: Nov 07 22:50 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.NO_FAILURE_OPT
@@ -44,23 +42,21 @@ Note: Google Test filter = RTP.NO_FAILURE_OPT
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.NO_FAILURE_OPT
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.NO_FAILURE_OPT (5938 ms)
-[----------] 1 test from RTP (5938 ms total)
+[       OK ] RTP.NO_FAILURE_OPT (5860 ms)
+[----------] 1 test from RTP (5860 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (5939 ms total)
+[==========] 1 test from 1 test suite ran. (5860 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   5.96 sec
+Test time =   5.87 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.NO_FAILURE_OPT" end time: Nov 07 03:33 PST
+"RTP.NO_FAILURE_OPT" end time: Nov 07 22:50 PST
 "RTP.NO_FAILURE_OPT" time elapsed: 00:00:05
 ----------------------------------------------------------
 
@@ -68,7 +64,7 @@ Test Passed.
 3/26 Test: RTP.RECEIVER_TEST_LOST_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_LOST_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_LOST_DATA" start time: Nov 07 03:33 PST
+"RTP.RECEIVER_TEST_LOST_DATA" start time: Nov 07 22:50 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_LOST_DATA
@@ -76,27 +72,26 @@ Note: Google Test filter = RTP.RECEIVER_TEST_LOST_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_LOST_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_LOST_DATA (26436 ms)
-[----------] 1 test from RTP (26436 ms total)
+[       OK ] RTP.RECEIVER_TEST_LOST_DATA (25424 ms)
+[----------] 1 test from RTP (25424 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (26436 ms total)
+[==========] 1 test from 1 test suite ran. (25424 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  26.45 sec
+Test time =  25.44 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_LOST_DATA" end time: Nov 07 03:33 PST
-"RTP.RECEIVER_TEST_LOST_DATA" time elapsed: 00:00:26
+"RTP.RECEIVER_TEST_LOST_DATA" end time: Nov 07 22:50 PST
+"RTP.RECEIVER_TEST_LOST_DATA" time elapsed: 00:00:25
 ----------------------------------------------------------
 
 4/26 Testing: RTP.RECEIVER_TEST_DUP_DATA
 4/26 Test: RTP.RECEIVER_TEST_DUP_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_DUP_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_DUP_DATA" start time: Nov 07 03:33 PST
+"RTP.RECEIVER_TEST_DUP_DATA" start time: Nov 07 22:50 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_DUP_DATA
@@ -104,27 +99,26 @@ Note: Google Test filter = RTP.RECEIVER_TEST_DUP_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_DUP_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_DUP_DATA (17793 ms)
-[----------] 1 test from RTP (17793 ms total)
+[       OK ] RTP.RECEIVER_TEST_DUP_DATA (16600 ms)
+[----------] 1 test from RTP (16600 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (17793 ms total)
+[==========] 1 test from 1 test suite ran. (16601 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  17.81 sec
+Test time =  16.62 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_DUP_DATA" end time: Nov 07 03:34 PST
-"RTP.RECEIVER_TEST_DUP_DATA" time elapsed: 00:00:17
+"RTP.RECEIVER_TEST_DUP_DATA" end time: Nov 07 22:51 PST
+"RTP.RECEIVER_TEST_DUP_DATA" time elapsed: 00:00:16
 ----------------------------------------------------------
 
 5/26 Testing: RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA
 5/26 Test: RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" start time: Nov 07 03:34 PST
+"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" start time: Nov 07 22:51 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA
@@ -132,27 +126,26 @@ Note: Google Test filter = RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA (28470 ms)
-[----------] 1 test from RTP (28470 ms total)
+[       OK ] RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA (27297 ms)
+[----------] 1 test from RTP (27297 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (28471 ms total)
+[==========] 1 test from 1 test suite ran. (27297 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  28.48 sec
+Test time =  27.31 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" end time: Nov 07 03:34 PST
-"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" time elapsed: 00:00:28
+"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" end time: Nov 07 22:51 PST
+"RTP.RECEIVER_TEST_WRONG_CHKSUM_DATA" time elapsed: 00:00:27
 ----------------------------------------------------------
 
 6/26 Testing: RTP.RECEIVER_TEST_REORDER_DATA
 6/26 Test: RTP.RECEIVER_TEST_REORDER_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_REORDER_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_REORDER_DATA" start time: Nov 07 03:34 PST
+"RTP.RECEIVER_TEST_REORDER_DATA" start time: Nov 07 22:51 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_REORDER_DATA
@@ -160,19 +153,18 @@ Note: Google Test filter = RTP.RECEIVER_TEST_REORDER_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_REORDER_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_REORDER_DATA (14562 ms)
-[----------] 1 test from RTP (14562 ms total)
+[       OK ] RTP.RECEIVER_TEST_REORDER_DATA (14855 ms)
+[----------] 1 test from RTP (14855 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (14562 ms total)
+[==========] 1 test from 1 test suite ran. (14856 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  14.57 sec
+Test time =  14.87 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_REORDER_DATA" end time: Nov 07 03:34 PST
+"RTP.RECEIVER_TEST_REORDER_DATA" end time: Nov 07 22:51 PST
 "RTP.RECEIVER_TEST_REORDER_DATA" time elapsed: 00:00:14
 ----------------------------------------------------------
 
@@ -180,7 +172,7 @@ Test Passed.
 7/26 Test: RTP.RECEIVER_TEST_MIXED_1
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_MIXED_1" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_MIXED_1" start time: Nov 07 03:34 PST
+"RTP.RECEIVER_TEST_MIXED_1" start time: Nov 07 22:51 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_MIXED_1
@@ -188,27 +180,26 @@ Note: Google Test filter = RTP.RECEIVER_TEST_MIXED_1
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_MIXED_1
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_MIXED_1 (23465 ms)
-[----------] 1 test from RTP (23465 ms total)
+[       OK ] RTP.RECEIVER_TEST_MIXED_1 (22342 ms)
+[----------] 1 test from RTP (22342 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (23465 ms total)
+[==========] 1 test from 1 test suite ran. (22342 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  23.49 sec
+Test time =  22.35 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_MIXED_1" end time: Nov 07 03:35 PST
-"RTP.RECEIVER_TEST_MIXED_1" time elapsed: 00:00:23
+"RTP.RECEIVER_TEST_MIXED_1" end time: Nov 07 22:52 PST
+"RTP.RECEIVER_TEST_MIXED_1" time elapsed: 00:00:22
 ----------------------------------------------------------
 
 8/26 Testing: RTP.RECEIVER_TEST_MIXED_2
 8/26 Test: RTP.RECEIVER_TEST_MIXED_2
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.RECEIVER_TEST_MIXED_2" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.RECEIVER_TEST_MIXED_2" start time: Nov 07 03:35 PST
+"RTP.RECEIVER_TEST_MIXED_2" start time: Nov 07 22:52 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.RECEIVER_TEST_MIXED_2
@@ -216,19 +207,18 @@ Note: Google Test filter = RTP.RECEIVER_TEST_MIXED_2
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.RECEIVER_TEST_MIXED_2
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.RECEIVER_TEST_MIXED_2 (30459 ms)
-[----------] 1 test from RTP (30459 ms total)
+[       OK ] RTP.RECEIVER_TEST_MIXED_2 (30503 ms)
+[----------] 1 test from RTP (30503 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (30459 ms total)
+[==========] 1 test from 1 test suite ran. (30503 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  30.47 sec
+Test time =  30.51 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.RECEIVER_TEST_MIXED_2" end time: Nov 07 03:35 PST
+"RTP.RECEIVER_TEST_MIXED_2" end time: Nov 07 22:52 PST
 "RTP.RECEIVER_TEST_MIXED_2" time elapsed: 00:00:30
 ----------------------------------------------------------
 
@@ -236,7 +226,7 @@ Test Passed.
 9/26 Test: RTP.SENDER_TEST_LOST_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_LOST_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_LOST_ACK" start time: Nov 07 03:35 PST
+"RTP.SENDER_TEST_LOST_ACK" start time: Nov 07 22:52 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_LOST_ACK
@@ -244,29 +234,28 @@ Note: Google Test filter = RTP.SENDER_TEST_LOST_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_LOST_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_LOST_ACK (161462 ms)
-[----------] 1 test from RTP (161462 ms total)
+[       OK ] RTP.SENDER_TEST_LOST_ACK (162108 ms)
+[----------] 1 test from RTP (162108 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (161462 ms total)
+[==========] 1 test from 1 test suite ran. (162108 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time = 161.47 sec
+Test time = 162.12 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_LOST_ACK" end time: Nov 07 03:38 PST
-"RTP.SENDER_TEST_LOST_ACK" time elapsed: 00:02:41
+"RTP.SENDER_TEST_LOST_ACK" end time: Nov 07 22:55 PST
+"RTP.SENDER_TEST_LOST_ACK" time elapsed: 00:02:42
 ----------------------------------------------------------
 
 10/26 Testing: RTP.SENDER_TEST_DUP_ACK
 10/26 Test: RTP.SENDER_TEST_DUP_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_DUP_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_DUP_ACK" start time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_DUP_ACK" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_DUP_ACK
@@ -274,29 +263,28 @@ Note: Google Test filter = RTP.SENDER_TEST_DUP_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_DUP_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_DUP_ACK (16162 ms)
-[----------] 1 test from RTP (16163 ms total)
+[       OK ] RTP.SENDER_TEST_DUP_ACK (17373 ms)
+[----------] 1 test from RTP (17374 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (16163 ms total)
+[==========] 1 test from 1 test suite ran. (17374 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  16.18 sec
+Test time =  17.39 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_DUP_ACK" end time: Nov 07 03:38 PST
-"RTP.SENDER_TEST_DUP_ACK" time elapsed: 00:00:16
+"RTP.SENDER_TEST_DUP_ACK" end time: Nov 07 22:55 PST
+"RTP.SENDER_TEST_DUP_ACK" time elapsed: 00:00:17
 ----------------------------------------------------------
 
 11/26 Testing: RTP.SENDER_TEST_WRONG_CHKSUM_ACK
 11/26 Test: RTP.SENDER_TEST_WRONG_CHKSUM_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_WRONG_CHKSUM_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" start time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_WRONG_CHKSUM_ACK
@@ -304,29 +292,28 @@ Note: Google Test filter = RTP.SENDER_TEST_WRONG_CHKSUM_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_WRONG_CHKSUM_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_WRONG_CHKSUM_ACK (3760 ms)
-[----------] 1 test from RTP (3760 ms total)
+[       OK ] RTP.SENDER_TEST_WRONG_CHKSUM_ACK (4259 ms)
+[----------] 1 test from RTP (4259 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (3760 ms total)
+[==========] 1 test from 1 test suite ran. (4259 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   3.78 sec
+Test time =   4.27 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" end time: Nov 07 03:38 PST
-"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" time elapsed: 00:00:03
+"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" end time: Nov 07 22:55 PST
+"RTP.SENDER_TEST_WRONG_CHKSUM_ACK" time elapsed: 00:00:04
 ----------------------------------------------------------
 
 12/26 Testing: RTP.SENDER_TEST_REORDER_ACK
 12/26 Test: RTP.SENDER_TEST_REORDER_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_REORDER_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_REORDER_ACK" start time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_REORDER_ACK" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_REORDER_ACK
@@ -334,21 +321,20 @@ Note: Google Test filter = RTP.SENDER_TEST_REORDER_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_REORDER_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_REORDER_ACK (2855 ms)
-[----------] 1 test from RTP (2855 ms total)
+[       OK ] RTP.SENDER_TEST_REORDER_ACK (2335 ms)
+[----------] 1 test from RTP (2335 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (2855 ms total)
+[==========] 1 test from 1 test suite ran. (2336 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   2.87 sec
+Test time =   2.35 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_REORDER_ACK" end time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_REORDER_ACK" end time: Nov 07 22:55 PST
 "RTP.SENDER_TEST_REORDER_ACK" time elapsed: 00:00:02
 ----------------------------------------------------------
 
@@ -356,7 +342,7 @@ Test Passed.
 13/26 Test: RTP.SENDER_TEST_MIXED_1
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_MIXED_1" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_MIXED_1" start time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_MIXED_1" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_MIXED_1
@@ -364,29 +350,28 @@ Note: Google Test filter = RTP.SENDER_TEST_MIXED_1
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_MIXED_1
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_MIXED_1 (6679 ms)
-[----------] 1 test from RTP (6679 ms total)
+[       OK ] RTP.SENDER_TEST_MIXED_1 (5590 ms)
+[----------] 1 test from RTP (5590 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (6680 ms total)
+[==========] 1 test from 1 test suite ran. (5590 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   6.69 sec
+Test time =   5.60 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_MIXED_1" end time: Nov 07 03:38 PST
-"RTP.SENDER_TEST_MIXED_1" time elapsed: 00:00:06
+"RTP.SENDER_TEST_MIXED_1" end time: Nov 07 22:55 PST
+"RTP.SENDER_TEST_MIXED_1" time elapsed: 00:00:05
 ----------------------------------------------------------
 
 14/26 Testing: RTP.SENDER_TEST_MIXED_2
 14/26 Test: RTP.SENDER_TEST_MIXED_2
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.SENDER_TEST_MIXED_2" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.SENDER_TEST_MIXED_2" start time: Nov 07 03:38 PST
+"RTP.SENDER_TEST_MIXED_2" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.SENDER_TEST_MIXED_2
@@ -394,21 +379,20 @@ Note: Google Test filter = RTP.SENDER_TEST_MIXED_2
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.SENDER_TEST_MIXED_2
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.SENDER_TEST_MIXED_2 (3866 ms)
-[----------] 1 test from RTP (3866 ms total)
+[       OK ] RTP.SENDER_TEST_MIXED_2 (3516 ms)
+[----------] 1 test from RTP (3517 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (3866 ms total)
+[==========] 1 test from 1 test suite ran. (3517 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   3.88 sec
+Test time =   3.53 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.SENDER_TEST_MIXED_2" end time: Nov 07 03:39 PST
+"RTP.SENDER_TEST_MIXED_2" end time: Nov 07 22:55 PST
 "RTP.SENDER_TEST_MIXED_2" time elapsed: 00:00:03
 ----------------------------------------------------------
 
@@ -416,7 +400,7 @@ Test Passed.
 15/26 Test: RTP.OPT_RECEIVER_TEST_LOST_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_LOST_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_LOST_DATA" start time: Nov 07 03:39 PST
+"RTP.OPT_RECEIVER_TEST_LOST_DATA" start time: Nov 07 22:55 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_LOST_DATA
@@ -424,27 +408,26 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_LOST_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_LOST_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_LOST_DATA (18549 ms)
-[----------] 1 test from RTP (18549 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_LOST_DATA (19879 ms)
+[----------] 1 test from RTP (19879 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (18550 ms total)
+[==========] 1 test from 1 test suite ran. (19879 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  18.56 sec
+Test time =  19.89 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_LOST_DATA" end time: Nov 07 03:39 PST
-"RTP.OPT_RECEIVER_TEST_LOST_DATA" time elapsed: 00:00:18
+"RTP.OPT_RECEIVER_TEST_LOST_DATA" end time: Nov 07 22:56 PST
+"RTP.OPT_RECEIVER_TEST_LOST_DATA" time elapsed: 00:00:19
 ----------------------------------------------------------
 
 16/26 Testing: RTP.OPT_RECEIVER_TEST_DUP_DATA
 16/26 Test: RTP.OPT_RECEIVER_TEST_DUP_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_DUP_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_DUP_DATA" start time: Nov 07 03:39 PST
+"RTP.OPT_RECEIVER_TEST_DUP_DATA" start time: Nov 07 22:56 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_DUP_DATA
@@ -452,27 +435,26 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_DUP_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_DUP_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_DUP_DATA (12905 ms)
-[----------] 1 test from RTP (12905 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_DUP_DATA (14231 ms)
+[----------] 1 test from RTP (14231 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (12906 ms total)
+[==========] 1 test from 1 test suite ran. (14231 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  12.92 sec
+Test time =  14.24 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_DUP_DATA" end time: Nov 07 03:39 PST
-"RTP.OPT_RECEIVER_TEST_DUP_DATA" time elapsed: 00:00:12
+"RTP.OPT_RECEIVER_TEST_DUP_DATA" end time: Nov 07 22:56 PST
+"RTP.OPT_RECEIVER_TEST_DUP_DATA" time elapsed: 00:00:14
 ----------------------------------------------------------
 
 17/26 Testing: RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA
 17/26 Test: RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" start time: Nov 07 03:39 PST
+"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" start time: Nov 07 22:56 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA
@@ -480,27 +462,26 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA (18522 ms)
-[----------] 1 test from RTP (18522 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA (20457 ms)
+[----------] 1 test from RTP (20457 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (18522 ms total)
+[==========] 1 test from 1 test suite ran. (20457 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  18.53 sec
+Test time =  20.46 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" end time: Nov 07 03:39 PST
-"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" time elapsed: 00:00:18
+"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" end time: Nov 07 22:56 PST
+"RTP.OPT_RECEIVER_TEST_WRONG_CHKSUM_DATA" time elapsed: 00:00:20
 ----------------------------------------------------------
 
 18/26 Testing: RTP.OPT_RECEIVER_TEST_REORDER_DATA
 18/26 Test: RTP.OPT_RECEIVER_TEST_REORDER_DATA
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_REORDER_DATA" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_REORDER_DATA" start time: Nov 07 03:39 PST
+"RTP.OPT_RECEIVER_TEST_REORDER_DATA" start time: Nov 07 22:56 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_REORDER_DATA
@@ -508,27 +489,26 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_REORDER_DATA
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_REORDER_DATA
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_REORDER_DATA (10691 ms)
-[----------] 1 test from RTP (10691 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_REORDER_DATA (12313 ms)
+[----------] 1 test from RTP (12313 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (10691 ms total)
+[==========] 1 test from 1 test suite ran. (12313 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  10.70 sec
+Test time =  12.33 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_REORDER_DATA" end time: Nov 07 03:40 PST
-"RTP.OPT_RECEIVER_TEST_REORDER_DATA" time elapsed: 00:00:10
+"RTP.OPT_RECEIVER_TEST_REORDER_DATA" end time: Nov 07 22:57 PST
+"RTP.OPT_RECEIVER_TEST_REORDER_DATA" time elapsed: 00:00:12
 ----------------------------------------------------------
 
 19/26 Testing: RTP.OPT_RECEIVER_TEST_MIXED_1
 19/26 Test: RTP.OPT_RECEIVER_TEST_MIXED_1
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_MIXED_1" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_MIXED_1" start time: Nov 07 03:40 PST
+"RTP.OPT_RECEIVER_TEST_MIXED_1" start time: Nov 07 22:57 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_MIXED_1
@@ -536,27 +516,26 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_MIXED_1
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_MIXED_1
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_MIXED_1 (15233 ms)
-[----------] 1 test from RTP (15233 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_MIXED_1 (17348 ms)
+[----------] 1 test from RTP (17349 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (15233 ms total)
+[==========] 1 test from 1 test suite ran. (17349 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  15.24 sec
+Test time =  17.36 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_MIXED_1" end time: Nov 07 03:40 PST
-"RTP.OPT_RECEIVER_TEST_MIXED_1" time elapsed: 00:00:15
+"RTP.OPT_RECEIVER_TEST_MIXED_1" end time: Nov 07 22:57 PST
+"RTP.OPT_RECEIVER_TEST_MIXED_1" time elapsed: 00:00:17
 ----------------------------------------------------------
 
 20/26 Testing: RTP.OPT_RECEIVER_TEST_MIXED_2
 20/26 Test: RTP.OPT_RECEIVER_TEST_MIXED_2
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_RECEIVER_TEST_MIXED_2" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_RECEIVER_TEST_MIXED_2" start time: Nov 07 03:40 PST
+"RTP.OPT_RECEIVER_TEST_MIXED_2" start time: Nov 07 22:57 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_RECEIVER_TEST_MIXED_2
@@ -564,19 +543,18 @@ Note: Google Test filter = RTP.OPT_RECEIVER_TEST_MIXED_2
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_RECEIVER_TEST_MIXED_2
-RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_RECEIVER_TEST_MIXED_2 (22097 ms)
-[----------] 1 test from RTP (22097 ms total)
+[       OK ] RTP.OPT_RECEIVER_TEST_MIXED_2 (22835 ms)
+[----------] 1 test from RTP (22835 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (22098 ms total)
+[==========] 1 test from 1 test suite ran. (22835 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  22.11 sec
+Test time =  22.84 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_RECEIVER_TEST_MIXED_2" end time: Nov 07 03:40 PST
+"RTP.OPT_RECEIVER_TEST_MIXED_2" end time: Nov 07 22:57 PST
 "RTP.OPT_RECEIVER_TEST_MIXED_2" time elapsed: 00:00:22
 ----------------------------------------------------------
 
@@ -584,7 +562,7 @@ Test Passed.
 21/26 Test: RTP.OPT_SENDER_TEST_LOST_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_LOST_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_LOST_ACK" start time: Nov 07 03:40 PST
+"RTP.OPT_SENDER_TEST_LOST_ACK" start time: Nov 07 22:57 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_LOST_ACK
@@ -592,29 +570,28 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_LOST_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_LOST_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_LOST_ACK (21121 ms)
-[----------] 1 test from RTP (21121 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_LOST_ACK (57891 ms)
+[----------] 1 test from RTP (57892 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (21121 ms total)
+[==========] 1 test from 1 test suite ran. (57892 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  21.14 sec
+Test time =  57.90 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_LOST_ACK" end time: Nov 07 03:41 PST
-"RTP.OPT_SENDER_TEST_LOST_ACK" time elapsed: 00:00:21
+"RTP.OPT_SENDER_TEST_LOST_ACK" end time: Nov 07 22:58 PST
+"RTP.OPT_SENDER_TEST_LOST_ACK" time elapsed: 00:00:57
 ----------------------------------------------------------
 
 22/26 Testing: RTP.OPT_SENDER_TEST_DUP_ACK
 22/26 Test: RTP.OPT_SENDER_TEST_DUP_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_DUP_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_DUP_ACK" start time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_DUP_ACK" start time: Nov 07 22:58 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_DUP_ACK
@@ -622,29 +599,28 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_DUP_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_DUP_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_DUP_ACK (5832 ms)
-[----------] 1 test from RTP (5832 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_DUP_ACK (8548 ms)
+[----------] 1 test from RTP (8548 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (5832 ms total)
+[==========] 1 test from 1 test suite ran. (8548 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   5.85 sec
+Test time =   8.56 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_DUP_ACK" end time: Nov 07 03:41 PST
-"RTP.OPT_SENDER_TEST_DUP_ACK" time elapsed: 00:00:05
+"RTP.OPT_SENDER_TEST_DUP_ACK" end time: Nov 07 22:58 PST
+"RTP.OPT_SENDER_TEST_DUP_ACK" time elapsed: 00:00:08
 ----------------------------------------------------------
 
 23/26 Testing: RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK
 23/26 Test: RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" start time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" start time: Nov 07 22:58 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK
@@ -652,29 +628,28 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK (14956 ms)
-[----------] 1 test from RTP (14956 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK (37921 ms)
+[----------] 1 test from RTP (37921 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (14956 ms total)
+[==========] 1 test from 1 test suite ran. (37921 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  14.97 sec
+Test time =  37.93 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" end time: Nov 07 03:41 PST
-"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" time elapsed: 00:00:14
+"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" end time: Nov 07 22:59 PST
+"RTP.OPT_SENDER_TEST_WRONG_CHKSUM_ACK" time elapsed: 00:00:37
 ----------------------------------------------------------
 
 24/26 Testing: RTP.OPT_SENDER_TEST_REORDER_ACK
 24/26 Test: RTP.OPT_SENDER_TEST_REORDER_ACK
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_REORDER_ACK" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_REORDER_ACK" start time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_REORDER_ACK" start time: Nov 07 22:59 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_REORDER_ACK
@@ -682,21 +657,20 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_REORDER_ACK
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_REORDER_ACK
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_REORDER_ACK (2699 ms)
-[----------] 1 test from RTP (2699 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_REORDER_ACK (2526 ms)
+[----------] 1 test from RTP (2526 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (2699 ms total)
+[==========] 1 test from 1 test suite ran. (2526 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   2.71 sec
+Test time =   2.54 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_REORDER_ACK" end time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_REORDER_ACK" end time: Nov 07 22:59 PST
 "RTP.OPT_SENDER_TEST_REORDER_ACK" time elapsed: 00:00:02
 ----------------------------------------------------------
 
@@ -704,7 +678,7 @@ Test Passed.
 25/26 Test: RTP.OPT_SENDER_TEST_MIXED_1
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_MIXED_1" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_MIXED_1" start time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_MIXED_1" start time: Nov 07 22:59 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_MIXED_1
@@ -712,29 +686,28 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_MIXED_1
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_MIXED_1
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_MIXED_1 (11963 ms)
-[----------] 1 test from RTP (11964 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_MIXED_1 (28373 ms)
+[----------] 1 test from RTP (28373 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (11964 ms total)
+[==========] 1 test from 1 test suite ran. (28374 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  11.98 sec
+Test time =  28.38 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_MIXED_1" end time: Nov 07 03:41 PST
-"RTP.OPT_SENDER_TEST_MIXED_1" time elapsed: 00:00:11
+"RTP.OPT_SENDER_TEST_MIXED_1" end time: Nov 07 23:00 PST
+"RTP.OPT_SENDER_TEST_MIXED_1" time elapsed: 00:00:28
 ----------------------------------------------------------
 
 26/26 Testing: RTP.OPT_SENDER_TEST_MIXED_2
 26/26 Test: RTP.OPT_SENDER_TEST_MIXED_2
 Command: "/home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test/rtp_test_all" "--gtest_filter=RTP.OPT_SENDER_TEST_MIXED_2" "--gtest_also_run_disabled_tests"
 Directory: /home/zky/lab2-rtp-YukihoKirihara/Lab2-RTP-Test
-"RTP.OPT_SENDER_TEST_MIXED_2" start time: Nov 07 03:41 PST
+"RTP.OPT_SENDER_TEST_MIXED_2" start time: Nov 07 23:00 PST
 Output:
 ----------------------------------------------------------
 Note: Google Test filter = RTP.OPT_SENDER_TEST_MIXED_2
@@ -742,22 +715,21 @@ Note: Google Test filter = RTP.OPT_SENDER_TEST_MIXED_2
 [----------] Global test environment set-up.
 [----------] 1 test from RTP
 [ RUN      ] RTP.OPT_SENDER_TEST_MIXED_2
-START Message sent.
 RTP Connection starts.
 RTP Connection terminated.
 UDP socket closed.
-[       OK ] RTP.OPT_SENDER_TEST_MIXED_2 (20400 ms)
-[----------] 1 test from RTP (20400 ms total)
+[       OK ] RTP.OPT_SENDER_TEST_MIXED_2 (52631 ms)
+[----------] 1 test from RTP (52631 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (20401 ms total)
+[==========] 1 test from 1 test suite ran. (52631 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =  20.42 sec
+Test time =  52.64 sec
 ----------------------------------------------------------
 Test Passed.
-"RTP.OPT_SENDER_TEST_MIXED_2" end time: Nov 07 03:41 PST
-"RTP.OPT_SENDER_TEST_MIXED_2" time elapsed: 00:00:20
+"RTP.OPT_SENDER_TEST_MIXED_2" end time: Nov 07 23:00 PST
+"RTP.OPT_SENDER_TEST_MIXED_2" time elapsed: 00:00:52
 ----------------------------------------------------------
 
-End testing: Nov 07 03:41 PST
+End testing: Nov 07 23:00 PST
