@@ -36,7 +36,7 @@
 #define MAX_WINDOW_SIZE     512     // the maximal size of a gliding window. 
 
 #define TIMEOUT             100     // A timeout occurs if current time is not less than 100ms larger than the set time.
-#define RECV_TIMEOUT        10*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
+#define RECV_TIMEOUT        4*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
 
 
 typedef struct gliding_window {
@@ -96,24 +96,25 @@ int initReceiver(uint16_t port, uint32_t window_size) {
         printf("%s\n", strerror(errno));
         return -1;
     } 
-    // int flags = fcntl(listen_socket_fd, F_GETFL);
-    // flags |= O_NONBLOCK;
-    // if (fcntl(listen_socket_fd, F_SETFL, flags) == -1) {
-    //     printf("Error: Failed to set the listen socket for the receiver non-block.\n");
-    //     printf("%s\n", strerror(errno));
-    //     return -1;
-    // }
+    int flags = fcntl(listen_socket_fd, F_GETFL);
+    flags |= O_NONBLOCK;
+    if (fcntl(listen_socket_fd, F_SETFL, flags) == -1) {
+        printf("Error: Failed to set the listen socket for the receiver non-block.\n");
+        printf("%s\n", strerror(errno));
+        return -1;
+    }
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     server_addr.sin_addr.s_addr = INADDR_ANY;
     curr_window_size = window_size;
-
+    /*
     struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 100000;    // 100 ms == TIMEOUT
     if (setsockopt(listen_socket_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
         printf("Error: Failed to set socket timeout.\n");
     }
+    */
     
     if (bind(listen_socket_fd, (struct sockaddr*)&server_addr, addr_len) == -1) {
         printf("Error: Failed to bind the listen socket to the address.\n");
@@ -337,7 +338,7 @@ int recvMessage(char* filename) {
             set_time = clock();
         }
         else if (recv_msg->rtp.type == RTP_END) {
-            // printf("Receive message RTP_END.\n");
+            printf("Receive message RTP_END.\n");
             if (started == 0) {
                 // printf("Warning: An END message arrived before an RTP Connection is started.\n");
                 set_time = clock();
@@ -426,7 +427,7 @@ void terminateReceiver() {
         printf("%s\n", strerror(errno));
     }
     else 
-        printf("UDP socket closed.\n");
+        printf("receiver: UDP socket closed.\n");
     curr_window_size = 0;
     listen_socket_fd = -1;
     expc_seq_num = 0;
