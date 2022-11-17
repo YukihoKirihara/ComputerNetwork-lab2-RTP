@@ -117,27 +117,25 @@ int initSender(const char* receiver_ip, uint16_t receiver_port, uint32_t window_
         return -1;
     } 
     // Set the socket fd O_NONBLOCK so that it will not block on recvfrom().
-    int flags = fcntl(curr_socket_fd, F_GETFL);
-    flags |= O_NONBLOCK;
-    if (fcntl(curr_socket_fd, F_SETFL, flags) == -1) {
-        printf("Error: Failed to set the socket for sender non-block.\n");
-        printf("%s\n", strerror(errno));
-        return -1;
-    }
+    // int flags = fcntl(curr_socket_fd, F_GETFL);
+    // flags |= O_NONBLOCK;
+    // if (fcntl(curr_socket_fd, F_SETFL, flags) == -1) {
+    //     printf("Error: Failed to set the socket for sender non-block.\n");
+    //     printf("%s\n", strerror(errno));
+    //     return -1;
+    // }
 
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(receiver_port);
     server_addr.sin_addr.s_addr = inet_addr(receiver_ip);
     curr_window_size = window_size;    
 
-    /*
     struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 100000;
     if (setsockopt(curr_socket_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
         printf("Error: Failed to set socket timeout.\n");
     }
-    */
 
     // getsockname(curr_socket_fd, (struct sockaddr *)&client_addr, &addr_len);
     // client_addr.sin_port = htons(23334);
@@ -435,7 +433,7 @@ void terminateSender() {
         printf("Error: Failed to terminate RTP Connection regularly.\n");
     }
     else 
-        printf("sender: RTP Connection terminated.\n");
+        printf("RTP Connection terminated.\n");
     
     if (close(curr_socket_fd) == -1) {
         printf("Error: Failed to close UDP socket regularly.\n");
@@ -443,7 +441,7 @@ void terminateSender() {
         // Probably already closed.
     }
     else 
-        printf("sender: UDP socket closed.\n");
+        printf("UDP socket closed.\n");
     // Clear up
     curr_window_size = 0;
     curr_socket_fd = -1;
@@ -466,21 +464,6 @@ void terminateSender() {
     Returns 0 if succeed, and -1 if an error occurs.
 */
 int Send_End_Message(void) {
-    // int flags = fcntl(curr_socket_fd, F_GETFL);
-    // flags &= (~O_NONBLOCK);
-    // if (fcntl(curr_socket_fd, F_SETFL, flags) == -1) {
-    //     printf("Error: Failed to set the socket for sender non-block.\n");
-    //     printf("%s\n", strerror(errno));
-    //     return -1;
-    // }
-
-    // struct timeval tv;
-    // tv.tv_sec = 0;
-    // tv.tv_usec = 100000;
-    // if (setsockopt(curr_socket_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
-    //     printf("Error: Failed to set socket timeout.\n");
-    // }
-
     rtp_packet_t * send_msg;
     uint32_t packet_len = 0;
     send_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
@@ -578,12 +561,9 @@ Wait_for_END_ACK:
     When a Timeout occurs, only resend THOSE packets that have not yet been acknowledged.
 */
 int sendMessageOpt(const char* message) {
-    int SR_flag = 0;
-    int to_ack = 0, ack_cnt = 0;
-
-    FILE * localfile;   // The target file to send.
-    int file_len = 0;  // Total bytes number to send in the file.
-    int file_cnt = 0;   // Bytes number that has been sent in the file.
+    FILE * localfile;
+    int file_len = 0;
+    int file_cnt = 0;
     localfile = fopen(message, "r");
     if (localfile == NULL) {
         printf("Error: Failed to open local file %s.\n", message);
@@ -593,8 +573,10 @@ int sendMessageOpt(const char* message) {
     file_len = ftell(localfile);
     fseek(localfile, 0, SEEK_SET);
 
-    int pld_len = 0, packet_len = 0, send_num = 0;
-    int recv_num = 0, recv_seq_num = 0;
+    Free_Gliding_Window();
+
+    int pld_len = 0, packet_len = 0, send_cnt = 0, send_num = 0;
+    int recv_cnt = 0, recv_num = 0, recv_seq_num = 0, recv_flag = 0;
     uint32_t recv_check = 0;
     rtp_packet_t * send_msg;
     rtp_packet_t * recv_msg;
@@ -602,129 +584,127 @@ int sendMessageOpt(const char* message) {
     recv_buf = (uint8_t *) malloc(SHORT_BUF_SIZE);
     curr_seq_num = -1;
     GW.head = 0, GW.tail = -1;  // the gliding window = [head, tail]
-    while ((file_cnt < file_len) || (GW.head <= GW.tail)) {
-        for (int i=GW.head; i<GW.head+curr_window_size; i++) {
-            if ((file_cnt < file_len) && (GW.tail < i)) {
-                GW.tail = i;
-                if (GW.p[i%curr_window_size] != NULL) {
-                    free(GW.p[i%curr_window_size]); GW.p[i%curr_window_size] = NULL;
-                }
-                send_msg = GW.p[i%curr_window_size] = (rtp_packet_t *)calloc(PACKET_SIZE, 1);
-                GW.acked[i%curr_window_size] = 0;
-                to_ack++;
-                pld_len = Min(PAYLOAD_SIZE, file_len-file_cnt);
-                packet_len = HEADER_SIZE+pld_len;
-                if (fread(send_msg->payload, pld_len, 1, localfile) != 1) {
-                    printf("Error: Failed to read file %s at position %d.\n", message, ftell(localfile));
-                    printf("%s\n",strerror(errno));
+    while (1) {
+        // <Send a DATA message>
+        if ((GW.tail-GW.head+1 < curr_window_size) && (file_cnt < file_len)) {
+            GW.tail++;
+            GW.p[GW.tail%curr_window_size] = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
+            GW.acked[GW.tail%curr_window_size] = 0;
+            send_msg = GW.p[GW.tail%curr_window_size];
+            pld_len = Min(PAYLOAD_SIZE, file_len-file_cnt);
+            packet_len = HEADER_SIZE+pld_len;
+            if (fread(send_msg->payload, pld_len, 1, localfile) != 1) {
+                printf("Error: Failed to read file %s at position %d.\n", message, ftell(localfile));
+                fclose(localfile);
+                Free_Gliding_Window();
+                return -1;
+            }
+            send_msg->rtp.type = RTP_DATA;
+            send_msg->rtp.length = pld_len;
+            send_msg->rtp.seq_num = ++curr_seq_num;
+            send_msg->rtp.checksum = 0;
+            send_msg->rtp.checksum = compute_checksum(send_msg, packet_len);
+
+            send_cnt = 0; send_num = 0;
+            while (send_cnt < packet_len) {
+                send_num = sendto(curr_socket_fd, (unsigned char *)send_msg, packet_len, 0, (struct sockaddr *)&server_addr, addr_len);
+                if (send_num == -1) {
+                    printf("Error: Failed to send a message.\n");
+                    printf("%s\n", strerror(errno));
                     fclose(localfile);
                     Free_Gliding_Window();
                     return -1;
-                } 
-                file_cnt += pld_len;
-                send_msg->rtp.type = RTP_DATA;
-                send_msg->rtp.length = pld_len;
-                send_msg->rtp.seq_num = ++curr_seq_num;
-                send_msg->rtp.checksum = 0;
-                send_msg->rtp.checksum = compute_checksum(send_msg, packet_len);
+                }
+                else if (send_num == 0) {
+                    printf("Error: Connection closed before sendto() finishes.\n");
+                    fclose(localfile);
+                    Free_Gliding_Window();
+                    return -1;
+                }
+                else send_cnt += send_num;
             }
-            send_num = 0;
-            send_msg = GW.p[i%curr_window_size];
-            if ((i > GW.tail) || (send_msg == NULL)) 
-                break;
-            if (GW.acked[i%curr_window_size] == 1) 
-                continue;
-            packet_len = send_msg->rtp.length+HEADER_SIZE;
-            send_num = sendto(curr_socket_fd, (unsigned char *)send_msg, packet_len, 0, (struct sockaddr *)&server_addr, addr_len);
-            if (send_num == -1) {
-                printf("Error: Failed to send a message. Sequence number = %d\n", curr_seq_num);
-                printf("%s\n", strerror(errno));
-                fclose(localfile);
-                Free_Gliding_Window();
-                return -1;
-            }
-            else if (send_num == 0) {
-                printf("Error: Connection closed before sendto() finishes.\n");
-                fclose(localfile);
-                Free_Gliding_Window();
-                return -1;
-            }
-            if (send_num != packet_len) 
-                printf("Warning: Message %d sent with incorrect length %d.\n", curr_seq_num, send_num);
-            if (i == GW.head) 
+            file_cnt += pld_len;
+            if (GW.head == 0)
                 set_time = clock();
-            if (SR_flag) {
-                // printf("Selective Resend seq_num = %d\n.", send_msg->rtp.seq_num);
-                SR_flag = 0;
-                break;
-            }
         }
 
-        ack_cnt = 0;
-        for (int j=0; j<to_ack; j++) {
-            if (GW.head > GW.tail)
-                break;
-
-            recv_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
-            memset(recv_buf, 0, SHORT_BUF_SIZE);
-            recv_num = 0;
-            recv_num = recvfrom(curr_socket_fd, recv_buf, SHORT_BUF_SIZE, 0, (struct sockaddr *)&reply_addr, &addr_len);
-            if (recv_num == 0) {    // Connection closed.
-                printf("Error: Connection closed before recvfrom() finishes.\n");
+        // <Try receiving an ACK message>
+        recv_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
+        memset(recv_buf, 0, SHORT_BUF_SIZE);
+        recv_num = 0; recv_cnt = 0; recv_flag = 0;
+        recv_num = recvfrom(curr_socket_fd, recv_buf, PACKET_SIZE, 0, (struct sockaddr *)&reply_addr, &addr_len);
+        if (recv_num == 0) {
+            printf("Error: Connection closed before recvfrom() finishes.\n");
+            free(recv_msg); recv_msg = NULL;
+            free(recv_buf); recv_buf = NULL;
+            fclose(localfile);
+            Free_Gliding_Window();
+            return -1;
+        }
+        else if (recv_num == -1) {
+            curr_time = clock();
+            if (curr_time-set_time >= RECV_TIMEOUT) {
+                printf("Timeout: No message arrival.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
                 Free_Gliding_Window();
                 return -1;
             }
-            else if (recv_num == -1) {
-                curr_time = clock();
-                if (curr_time-set_time >= RECV_TIMEOUT) {
-                    printf("Timeout: No message arrival.\n");
+            else if (curr_time-set_time >= TIMEOUT) {
+                if (Selective_Resend() == -1) {
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
                     fclose(localfile);
                     Free_Gliding_Window();
                     return -1;
                 }
-                else if (curr_time-set_time >= TIMEOUT) {  
-                    // Selective Resend
-                    set_time = clock();
-                    SR_flag = 1;
-                    break;
-                }
+                set_time = clock();
             }
-            if (recv_num < HEADER_SIZE) 
+            continue;
+        }
+        // Some message is received
+        else recv_cnt += recv_num;
+        if (recv_cnt < HEADER_SIZE)
+            continue;
+        // A full-size packet is received.
+        for (int i=0; i<HEADER_SIZE; i++) 
+            *((unsigned char *)recv_msg + i) = recv_buf[i];
+        if (recv_msg->rtp.type == RTP_ACK) {
+            recv_check = Checksum_Reconstruct(recv_msg, recv_cnt);
+            if (recv_cnt != HEADER_SIZE) {
+                // printf("Warning: DATA ACK message excessive lengh.\n");
                 continue;
-            for (int i=0; i<HEADER_SIZE; i++)
-                *((unsigned char *)recv_msg+i) = recv_buf[i];
-            if (recv_msg->rtp.type == RTP_ACK) {
-                recv_check = Checksum_Reconstruct(recv_msg, recv_num);
-                if (recv_check == 0) {
-                    if ((recv_num == HEADER_SIZE) && (recv_msg->rtp.length == 0)) {
-                        if ((recv_msg->rtp.seq_num >= GW.p[GW.head%curr_window_size]->rtp.seq_num) 
-                            && (recv_msg->rtp.seq_num <= GW.p[GW.tail%curr_window_size]->rtp.seq_num)) {
-                            for (int i=GW.head; i<=GW.tail; i++) {
-                                if (GW.p[i%curr_window_size]->rtp.seq_num == recv_msg->rtp.seq_num) {
-                                    if (GW.acked[i%curr_window_size] == 0) 
-                                        ack_cnt++;
-                                    GW.acked[i%curr_window_size] = 1;
-                                }
-                            }
-                            for (; GW.p[GW.head%curr_window_size] != NULL; GW.head++) {
-                                if (GW.acked[GW.head%curr_window_size] == 0)
-                                    break;
-                                GW.acked[GW.head%curr_window_size] = 0; 
-                                free(GW.p[GW.head%curr_window_size]); GW.p[GW.head%curr_window_size] = NULL;
-                                set_time = clock();
-                            }
-                            // printf("seq_num = %d.\n", recv_msg->rtp.seq_num);
+            }
+            if ((recv_msg->rtp.length == 0) && (recv_check == 0)) {
+                if ((recv_msg->rtp.seq_num >= GW.p[GW.head%curr_window_size]->rtp.seq_num) && 
+                    (recv_msg->rtp.seq_num <= GW.p[GW.tail%curr_window_size]->rtp.seq_num)) {
+                    for (int iter = GW.head; iter <= GW.tail; iter++) {
+                        if (GW.p[iter%curr_window_size] != NULL) {
+                            if (GW.p[iter%curr_window_size]->rtp.seq_num == recv_msg->rtp.seq_num) 
+                                GW.acked[iter%curr_window_size] = 1;
                         }
                     }
+                    recv_flag = 1;
+                    while ((GW.head <= GW.tail) && (GW.p[GW.head%curr_window_size] != NULL)) {
+                        if (GW.acked[GW.head%curr_window_size] != 1) 
+                            break;
+                        free(GW.p[GW.head%curr_window_size]); GW.p[GW.head%curr_window_size] = NULL;
+                        GW.head++; 
+                    }
+                    set_time = clock();
                 }
             }
+            // if (recv_check != 0) {
+            //     printf("Warning: DATA ACK message checksum failure.\n");
+            // }
+            // else if (recv_msg->rtp.length != 0){
+            //     printf("Warning: DATA ACK message excessive length.\n");
+            // }
         }
-        to_ack -= ack_cnt;
+
+        if ((file_cnt == file_len) && (GW.head > GW.tail)) 
+            break;
     }
 
     free(recv_msg); recv_msg = NULL;
