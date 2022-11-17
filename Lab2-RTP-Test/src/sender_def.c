@@ -55,7 +55,6 @@ static clock_t set_time, curr_time;
 static int addr_len = sizeof(struct sockaddr_in);
 
 static void Init_Sender(void);
-static int Resend_Window(void);
 static int Selective_Resend(void);
 static int Send_End_Message(void);
 static void Free_Gliding_Window(void);
@@ -253,33 +252,6 @@ while(1) {
     sendMessage
     Send the file named *message in the current directory, 
         return 0 if succeed and -1 if fail.  
-
-    1. Read the file for utmost PAYLOAD_SIZE bytes.
-    2. Packet it in a DATA message, and increment seq_num. 
-    3. Apply a gliding window machinery for reliable transmission. 
-        The number of files that is in flight and not yet acknowledged should not exceed window_size.
-        Each DATA message is acknowledged by a ACK message, with the seq_num a message it expects to receive at that moment.
-        When the first package in the window is acknowledged, 
-            the window moves and set the timer.
-        Message can be lost, delayed, damaged during transmission, 
-            and multiple ACK and disorder may also happen.
-        When the timer reaches 100ms, 
-            RESEND ALL THE DATA MESSAGE IN THE WINDOW.
-    4. Repeat 1 through 3 until the whole file is sent.        
-    
-    FSM
-    <Send a DATA message>
-        If the window reaches curr_window_size, skip.
-        If the file sending is completed, skip.
-    ↓
-    <Try receiving an ACK message>
-        Succeed ->  If ACK message valid, mark in the window 
-                        If ACK seq_num >= window.head, move the window's head and reset the timer.
-                    Else, do nothing.
-        Failed ->   If Out of time, go to <Resend the whlole window>
-                    Else, go to <Send a DATA message>
-    
-    <Resend the whole window>
 */
 int sendMessage(const char* message) {
     FILE * localfile;   // The target file to send.
@@ -294,8 +266,8 @@ int sendMessage(const char* message) {
     file_len = ftell(localfile);
     fseek(localfile, 0, SEEK_SET);
 
-    int pld_len = 0, packet_len = 0, send_cnt = 0, send_num = 0;
-    int recv_cnt = 0, recv_num = 0, recv_seq_num = 0, recv_flag = 0;
+    int pld_len = 0, packet_len = 0, send_num = 0;
+    int recv_num = 0, recv_seq_num = 0;
     uint32_t recv_check = 0;
     rtp_packet_t * send_msg;
     rtp_packet_t * recv_msg;
@@ -303,42 +275,39 @@ int sendMessage(const char* message) {
     recv_buf = (uint8_t *) malloc(SHORT_BUF_SIZE);
     curr_seq_num = -1;
     GW.head = 0, GW.tail = -1;  // the gliding window = [head, tail]
-    while (1) {
-        // <Send a DATA message>
-Send_DATA_Message:
-        // Read and pack the message
-        if ((GW.tail-GW.head+1 >= curr_window_size) || (file_cnt >= file_len)) 
-            goto Recv_ACK_Message;
-        GW.tail++;
-        GW.p[GW.tail%curr_window_size] = (rtp_packet_t *) calloc(PACKET_SIZE, 1); 
-        GW.acked[GW.tail%curr_window_size] = 0;
-        send_msg = GW.p[GW.tail%curr_window_size];
-        pld_len = Min(PAYLOAD_SIZE, file_len-file_cnt);
-        packet_len = HEADER_SIZE+pld_len;
-        if (fread(send_msg->payload, pld_len, 1, localfile) != 1) {
-            printf("Error: Failed to read file %s at position %d.\n", message, ftell(localfile));
-            fclose(localfile);
-            Free_Gliding_Window();
-            return -1;
-        }
-        send_msg->rtp.type = RTP_DATA;
-        send_msg->rtp.length = pld_len;
-        send_msg->rtp.seq_num = ++curr_seq_num;
-        send_msg->rtp.checksum = 0;
-        send_msg->rtp.checksum = compute_checksum(send_msg, packet_len);
-        
-        // printf("in the sender\n");
-        // for (int i=0;i<HEADER_SIZE; i++) {
-        //     printf("%02x ",*((unsigned char*)send_msg+i));
-        // }
-        // printf("\n");
-
-        // Send the message
-        send_cnt = 0; send_num = 0;
-        while (send_cnt < packet_len) {
+    while ((file_cnt < file_len) || (GW.head <= GW.tail)) {
+        for (int i=GW.head; i<GW.head+curr_window_size; i++) {
+            if ((file_cnt < file_len) && (GW.tail < i)) {
+                GW.tail = i;
+                if (GW.p[i%curr_window_size] != NULL) {
+                    free(GW.p[i%curr_window_size]); GW.p[i%curr_window_size] = NULL;
+                }
+                send_msg = GW.p[i%curr_window_size] = (rtp_packet_t *)calloc(PACKET_SIZE, 1);
+                GW.acked[i%curr_window_size] = 0;
+                pld_len = Min(PAYLOAD_SIZE, file_len-file_cnt);
+                packet_len = HEADER_SIZE+pld_len;
+                if (fread(send_msg->payload, pld_len, 1, localfile) != 1) {
+                    printf("Error: Failed to read file %s at position %d.\n", message, ftell(localfile));
+                    printf("%s\n",strerror(errno));
+                    fclose(localfile);
+                    Free_Gliding_Window();
+                    return -1;
+                } 
+                file_cnt += pld_len;
+                send_msg->rtp.type = RTP_DATA;
+                send_msg->rtp.length = pld_len;
+                send_msg->rtp.seq_num = ++curr_seq_num;
+                send_msg->rtp.checksum = 0;
+                send_msg->rtp.checksum = compute_checksum(send_msg, packet_len);
+            }
+            send_num = 0;
+            send_msg = GW.p[i%curr_window_size];
+            if ((i > GW.tail) || (send_msg == NULL)) 
+                break;
+            packet_len = send_msg->rtp.length+HEADER_SIZE;
             send_num = sendto(curr_socket_fd, (unsigned char *)send_msg, packet_len, 0, (struct sockaddr *)&server_addr, addr_len);
             if (send_num == -1) {
-                printf("Error: Failed to send a message.\n");
+                printf("Error: Failed to send a message. Sequence number = %d\n", curr_seq_num);
                 printf("%s\n", strerror(errno));
                 fclose(localfile);
                 Free_Gliding_Window();
@@ -350,95 +319,66 @@ Send_DATA_Message:
                 Free_Gliding_Window();
                 return -1;
             }
-            else send_cnt += send_num;
+            if (send_num != packet_len) 
+                printf("Warning: Message %d sent with incorrect length %d.\n", curr_seq_num, send_num);
+            if (i == GW.head) 
+                set_time = clock();
         }
-        file_cnt += pld_len;
-        if (GW.head == 0) 
-            set_time = clock();         // the first message un-acknowledged
+        
+        for (int j=0; j<curr_window_size; j++) {
+            if (GW.head > GW.tail)
+                break;
 
-        // <Try receiving an ACK message>
-Recv_ACK_Message:
-        recv_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
-        memset(recv_buf, 0, SHORT_BUF_SIZE);
-        recv_num = 0;
-        recv_cnt = 0;
-        recv_flag = 0;
-        // Try receiving a message
-        recv_num = recvfrom(curr_socket_fd, recv_buf, PACKET_SIZE, 0, (struct sockaddr *)&reply_addr, &addr_len);
-        if (recv_num == 0) {    // Connection closed.
-            printf("Error: Connection closed before recvfrom() finishes.\n");
-            free(recv_msg); recv_msg = NULL;
-            free(recv_buf); recv_buf = NULL;
-            fclose(localfile);
-            Free_Gliding_Window();
-            return -1;
-        }
-        else if (recv_num == -1) {   // No message for the time.
-            curr_time = clock();
-            if (curr_time-set_time >= RECV_TIMEOUT) {
-                printf("Timeout: No message arrival.\n");
+            recv_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
+            memset(recv_buf, 0, SHORT_BUF_SIZE);
+            recv_num = 0;
+            recv_num = recvfrom(curr_socket_fd, recv_buf, SHORT_BUF_SIZE, 0, (struct sockaddr *)&reply_addr, &addr_len);
+            if (recv_num == 0) {    // Connection closed.
+                printf("Error: Connection closed before recvfrom() finishes.\n");
                 free(recv_msg); recv_msg = NULL;
                 free(recv_buf); recv_buf = NULL;
                 fclose(localfile);
                 Free_Gliding_Window();
                 return -1;
             }
-            else if (curr_time-set_time >= TIMEOUT) {  // Timeout for the window head.
-                if (Resend_Window() == -1) {
+            else if (recv_num == -1) {
+                curr_time = clock();
+                if (curr_time-set_time >= RECV_TIMEOUT) {
+                    printf("Timeout: No message arrival.\n");
                     free(recv_msg); recv_msg = NULL;
                     free(recv_buf); recv_buf = NULL;
                     fclose(localfile);
                     Free_Gliding_Window();
                     return -1;
                 }
-                set_time = clock();
-            }
-            continue;
-        }
-        // Some message is received
-        else recv_cnt += recv_num;
-        if (recv_cnt < HEADER_SIZE)
-            continue;
-        // A full-size packet is received.
-        for (int i=0; i<HEADER_SIZE; i++)
-            *((unsigned char *)recv_msg+i) = recv_buf[i];
-        if (recv_msg->rtp.type == RTP_ACK) {
-            recv_check = Checksum_Reconstruct(recv_msg, recv_cnt);
-            if (recv_cnt != HEADER_SIZE) {
-                // printf("Warning: DATA ACK message excessive lengh.\n");
-                continue;
-            }
-            if ((recv_msg->rtp.length == 0) && (recv_check == 0)) {
-                // An ACK message is received. seq_num is the next message the receiver expects.
-                if (recv_msg->rtp.seq_num > GW.p[GW.head%curr_window_size]->rtp.seq_num) {
-                    if (recv_msg->rtp.seq_num-1 <= GW.p[GW.tail%curr_window_size]->rtp.seq_num) {
-                        for (; GW.p[GW.head%curr_window_size] != NULL; GW.head++) {
-                            if (GW.p[GW.head%curr_window_size]->rtp.seq_num >= recv_msg->rtp.seq_num) 
-                                break;
-                            GW.acked[GW.head%curr_window_size] = 1;
-                            free(GW.p[GW.head%curr_window_size]); GW.p[GW.head%curr_window_size] = NULL;
-                        }
-                        set_time = clock();
-                        recv_flag = 1;
-                    }
-                    // else {  
-                    //     printf("Warning: DATA ACK message contains an invalid sequence number.\n");
-                    // }
+                else if (curr_time-set_time >= TIMEOUT) {  
+                    // Resend the whole window
+                    set_time = clock();
+                    break;
                 }
-                // Otherwise, the seq_num is out of date. Neglect.
             }
-            // The following 2 cases are regarded as damaged packet. Neglect.
-            // if (recv_check != 0) {
-            //     printf("Warning: DATA ACK message checksum failure.\n");
-            // }
-            // else if (recv_msg->rtp.length != 0) {
-            //     printf("Warning: DATA ACK message excessive length.\n");
-            // }
-        }
-    
-        // Complete the file send, when all data have been sent and acknowledged.
-        if ((file_cnt == file_len) && (GW.head > GW.tail)) {
-            break;
+            if (recv_num < HEADER_SIZE) 
+                continue;
+            for (int i=0; i<HEADER_SIZE; i++)
+                *((unsigned char *)recv_msg+i) = recv_buf[i];
+            if (recv_msg->rtp.type == RTP_ACK) {
+                recv_check = Checksum_Reconstruct(recv_msg, recv_num);
+                if (recv_check == 0) {
+                    if ((recv_num == HEADER_SIZE) && (recv_msg->rtp.length == 0)) {
+                        if ((recv_msg->rtp.seq_num > GW.p[GW.head%curr_window_size]->rtp.seq_num) 
+                            && (recv_msg->rtp.seq_num-1 <= GW.p[GW.tail%curr_window_size]->rtp.seq_num)) {
+                            for (; GW.p[GW.head%curr_window_size] != NULL; GW.head++) {
+                                if (GW.p[GW.head%curr_window_size]->rtp.seq_num >= recv_msg->rtp.seq_num) 
+                                    break;
+                                GW.acked[GW.head%curr_window_size] = 1;
+                                free(GW.p[GW.head%curr_window_size]); GW.p[GW.head%curr_window_size] = NULL;
+                            }
+                            set_time = clock();
+                            // printf("next_seq_num = %d.\n", recv_msg->rtp.seq_num);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -462,42 +402,6 @@ static uint32_t Checksum_Reconstruct(rtp_packet_t * pkt, size_t pkt_len) {
     return (org_checksum == new_checksum)? 0 : new_checksum;
 }
 
-
-/*
-    Resend_Window
-    State <Resend the whole window> of FSM.
-    When a timeout occurs, resend all the data messages in the current window.
-    Return 0 if succeed, and -1 if failed.
-*/
-int Resend_Window(void) {
-    // printf("Note: Resending the whole window.\n");
-    int packet_len = 0, send_cnt = 0, send_num = 0;
-    rtp_packet_t * send_msg;
-    for (int i=GW.head; i<=GW.tail; i++) {
-        if (GW.p[i%curr_window_size] == NULL)
-            continue;
-        if (GW.acked[i%curr_window_size] == 1) 
-            continue;
-        send_msg = GW.p[i%curr_window_size];
-        packet_len = HEADER_SIZE+send_msg->rtp.length;
-        send_cnt = 0;
-        while (send_cnt < packet_len) {
-            send_num = sendto(curr_socket_fd, (unsigned char *)(send_msg)+send_cnt, packet_len-send_cnt, 0, (struct sockaddr *)&server_addr, addr_len);
-            if (send_num == -1) {
-                // printf("Error: Failed to send a message.\n");
-                // printf("%s\n", strerror(errno));
-                return -1;
-            }
-            else if (send_num == 0) {
-                // printf("Error: Connection closed before sendto() finishes.\n");
-                return -1;
-            }
-            else send_cnt += send_num;
-        }
-        // break;
-    }
-    return 0;
-}
 
 /*
     Free_Gliding_Window
