@@ -36,7 +36,7 @@
 #define MAX_WINDOW_SIZE     512     // the maximal size of a gliding window. 
 
 #define TIMEOUT             100     // A timeout occurs if current time is not less than 100ms larger than the set time.
-#define RECV_TIMEOUT        4*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
+#define RECV_TIMEOUT        3*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
 
 
 typedef struct gliding_window {
