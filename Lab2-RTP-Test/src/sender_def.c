@@ -36,7 +36,7 @@
 #define MAX_WINDOW_SIZE     512     // the maximal size of a gliding window. 
 
 #define TIMEOUT             100     // A timeout occurs if current time is not less than 100ms larger than the set time.
-#define RECV_TIMEOUT        10*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
+#define RECV_TIMEOUT        4*CLOCKS_PER_SEC   // The maximal time the receiver waits for a message.
 
 
 typedef struct gliding_window {
@@ -435,7 +435,7 @@ void terminateSender() {
         printf("Error: Failed to terminate RTP Connection regularly.\n");
     }
     else 
-        printf("RTP Connection terminated.\n");
+        printf("sender: RTP Connection terminated.\n");
     
     if (close(curr_socket_fd) == -1) {
         printf("Error: Failed to close UDP socket regularly.\n");
@@ -443,7 +443,7 @@ void terminateSender() {
         // Probably already closed.
     }
     else 
-        printf("UDP socket closed.\n");
+        printf("sender: UDP socket closed.\n");
     // Clear up
     curr_window_size = 0;
     curr_socket_fd = -1;
@@ -466,6 +466,21 @@ void terminateSender() {
     Returns 0 if succeed, and -1 if an error occurs.
 */
 int Send_End_Message(void) {
+    // int flags = fcntl(curr_socket_fd, F_GETFL);
+    // flags &= (~O_NONBLOCK);
+    // if (fcntl(curr_socket_fd, F_SETFL, flags) == -1) {
+    //     printf("Error: Failed to set the socket for sender non-block.\n");
+    //     printf("%s\n", strerror(errno));
+    //     return -1;
+    // }
+
+    // struct timeval tv;
+    // tv.tv_sec = 0;
+    // tv.tv_usec = 100000;
+    // if (setsockopt(curr_socket_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+    //     printf("Error: Failed to set socket timeout.\n");
+    // }
+
     rtp_packet_t * send_msg;
     uint32_t packet_len = 0;
     send_msg = (rtp_packet_t *) calloc(PACKET_SIZE, 1);
